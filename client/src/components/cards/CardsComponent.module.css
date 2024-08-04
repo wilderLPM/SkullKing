@@ -1,7 +1,7 @@
 .cardclass {
   width: 190px;
   height: 250px;
-  border: solid 1px white;
+  border: 1px solid black;
 }
 
 .violet {
@@ -18,4 +18,25 @@
 
 .black {
   background-color: black;
+}
+
+.faceName {
+  color: white;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  height: 100%;
+  align-items: flex-end;
+  padding-bottom: 4vh;
+  font-weight: bold;
+  text-align: center;
+}
+
+.colorName {
+  color: black;
+  background-color: white;
+  width: 27px;
+  height: 25px;
+  text-align: center;
+  padding-top: 2px;
 }
