@@ -1,4 +1,4 @@
-import CardsComponent from "../components/cards/CardsComponent";
+import CardsComponent from "../components/cards/CardComponent";
 import Cards from "../BDD/cards";
 import styles from "./GamePage.module.css";
 

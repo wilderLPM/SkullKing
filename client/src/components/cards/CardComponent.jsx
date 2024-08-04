@@ -1,4 +1,4 @@
-import styles from "./CardsComponent.module.css";
+import styles from "./CardComponent.module.css";
 
 const colorMap = {
   violet: styles.violet,
