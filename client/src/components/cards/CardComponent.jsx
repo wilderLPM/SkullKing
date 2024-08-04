@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import styles from "./CardComponent.module.css";
 
 const colorMap = {
@@ -24,3 +25,12 @@ export default function CardsComponent({ card }) {
     </div>
   );
 }
+
+CardsComponent.propTypes = {
+  card: PropTypes.shape({
+    description: PropTypes.oneOf(['violet', 'yellow', 'green']).isRequired,
+    background: PropTypes.string,
+    type: PropTypes.oneOf(['face', 'color']).isRequired,
+    attribut: PropTypes.string.isRequired,
+  }).isRequired,
+};
