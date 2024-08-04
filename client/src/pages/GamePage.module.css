@@ -1,0 +1,10 @@
+#deckMap {
+  display: flex;
+  flex-direction: row;
+  list-style-type: none;
+  flex-wrap: wrap;
+}
+
+.cardMap {
+  margin: 2%;
+}
