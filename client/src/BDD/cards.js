@@ -1,4 +1,4 @@
-const Activities = [
+const Cards = [
   {
     type: "face",
     description:
@@ -20,4 +20,4 @@ const Activities = [
   },
 ];
 
-export default Activities;
+export default Cards;
