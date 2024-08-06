@@ -20,6 +20,17 @@
   background-color: black;
 }
 
+.faceDown {
+  background-color: #a46030;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.faceDown > img {
+  width: 60px;
+}
+
 .faceName {
   color: white;
   display: flex;
