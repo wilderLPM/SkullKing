@@ -6,14 +6,15 @@ import Hand from "../components/Hand";
 import Cards from "../BDD/cards";
 
 export default function GamePage() {
-  const [isResolved, setIsResolved] = useState(false); // Est-ce que la résolution du tour a eu lieue ?
-  const [boardCards, setBoardCards] = useState([]); // Tableau contenant les cartes jouées lors de ce tour
+  const [isResolved, setIsResolved] = useState(false); // Est-ce que la résolution du tour actuel a eu lieue ?
+  const [boardCards, setBoardCards] = useState([]); // les cartes jouées lors de ce tour
   const [turn, setTurn] = useState(1);
   const [round, setRound] = useState(1);
-  const [isRoundStart, setIsRoundStart] = useState(true); // Est-ce que le bidding stage est terminé ?
-  const [hands, setHands] = useState([[], []]); // Tableau contenant les mains de tous les joueurs au fur et à mesure du round
-  const [deck, setDeck] = useState([...Cards]); // le paquet de carte au fur et à mesure du round
-  const [bids, setBids] = useState([]);
+  const [isRoundStart, setIsRoundStart] = useState(true); // round start = bidding stage du premier tour du round
+  const [hands, setHands] = useState([[], []]); // les mains des joueurs
+  const [deck, setDeck] = useState([...Cards]); // la pioche
+  const [bids, setBids] = useState([]); // les enchères des joueurs
+  const [userIndex, setUserIndex] = useState(0); // le joueur en train de jouer son tour
 
   const handleResolveTurn = () => {
     setBoardCards([]); // On nettoie le board
@@ -25,6 +26,7 @@ export default function GamePage() {
 
       setRound(round + 1); // On passe au round suivant
       setTurn(1);
+      setUserIndex(0);
       setIsRoundStart(true);
     } else {
       setTurn(turn + 1); // On passe au tour suivant
@@ -51,6 +53,8 @@ export default function GamePage() {
         isRoundStart={isRoundStart}
         setIsRoundStart={setIsRoundStart}
         setBids={setBids}
+        userIndex={userIndex}
+        setUserIndex={setUserIndex}
       />
     </>
   );

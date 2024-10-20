@@ -11,23 +11,24 @@ export default function Hand({
   deck,
   round,
   setHands,
-  setDeck,
+  setDeck, // sera utile pour les pouvoirs de pirates
   hands,
   turn,
   handleResolveTurn,
   isRoundStart,
   setIsRoundStart,
   setBids,
+  userIndex,
+  setUserIndex,
 }) {
   const playerNumber = 2;
   const maxRound = 3;
   const [isVisible, setIsVisible] = useState(false); // les cartes de la main sont visibles ?
-  const [userIndex, setUserIndex] = useState(0); // le joueur en train de jouer son tour
   const [isBidding, setIsBidding] = useState(false);
 
   useEffect(() => {
     const getRandomCard = () => {
-      const actualLength = deck.length; // Si il y a 3 cartes dans le deck actuellement,
+      const actualLength = deck.length; // ex: S'il y a 3 cartes dans le deck actuellement,
       const indexToRemove = Math.floor(Math.random() * actualLength); // alors on obtient un nombre aléatoire entre 0 et 2 (   [0 - 1) * 3    )
       const [newCard] = deck.splice(indexToRemove, 1); // A AMELIORER
       return newCard;
@@ -40,10 +41,10 @@ export default function Hand({
       for (let p = 0; p < playerNumber; p += 1) {
         // Pour chaque joueur p ...
         for (let c = 0; c < round; c += 1) {
-          // ... autant de fois que le numéro du round ...
+          // ... autant de fois que le numéro du round
           const newCard = getRandomCard();
-          newCard.index = c;
-          newHands[p].push(newCard); // ... on distribue une carte.
+          newCard.index = c; // On ajoute un index à la carte pour pouvoir la retrouver dans la main du joueur
+          newHands[p].push(newCard); // on distribue une carte.
         }
       }
       setHands(newHands);
@@ -70,7 +71,7 @@ export default function Hand({
         setIsRoundStart(false);
         setUserIndex(0);
       } else {
-        setUserIndex((prevIndex) => prevIndex + 1);
+        setUserIndex(userIndex + 1);
       }
 
       return newBids;
@@ -83,10 +84,10 @@ export default function Hand({
   const handlePlayCard = (card) => {
     // eslint-disable-next-line no-param-reassign
     card.player = userIndex;
-    hands[userIndex].splice(card.index, 1);
+    hands[userIndex].splice(card.index, 1); // On retire la carte de la main du joueur
     setBoardCards((prevBoardCards) => [...prevBoardCards, card]);
     setIsVisible(false);
-    setUserIndex(userIndex === 0 ? 1 : 0);
+    setUserIndex(userIndex === playerNumber - 1 ? 0 : userIndex + 1);
   };
 
   const handleEndGame = () => {
