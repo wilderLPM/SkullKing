@@ -4,48 +4,56 @@
 import { useState, useEffect } from "react";
 import CardComponent from "./cards/CardComponent";
 import FaceDownCard from "./cards/FaceDownCard";
-import Cards from "../BDD/cards";
 
-export default function Hand({ isResolved, setBoardCards }) {
+export default function Hand({
+  isResolved,
+  setBoardCards,
+  deck,
+  round,
+  setHands,
+  setDeck, // sera utile pour les pouvoirs de pirates
+  hands,
+  turn,
+  handleResolveTurn,
+  isRoundStart,
+  setIsRoundStart,
+  setBids,
+  userIndex,
+  setUserIndex,
+}) {
   const playerNumber = 2;
-  const [deck, setDeck] = useState(Cards); // le paquet de carte au fur et à mesure du tour
+  const maxRound = 3;
   const [isVisible, setIsVisible] = useState(false); // les cartes de la main sont visibles ?
-  const [userIndex, setUserIndex] = useState(0); // le joueur en train de jouer son tour
-  const [round, setRound] = useState(1);
-  const [turn, setTurn] = useState(1);
-  const [hands, setHands] = useState([[], []]); // Tableau contenant les mains de tous les joueurs au fur et à mesure du tour
-  const [isRoundStart, setIsRoundStart] = useState(true); // Est-ce que le bidding stage est terminé ?
   const [isBidding, setIsBidding] = useState(false);
-  const [bids, setBids] = useState([]);
 
   useEffect(() => {
     const getRandomCard = () => {
-      const actualLength = deck.length; // Si il y a 3 cartes dans le deck actuellement,
+      const actualLength = deck.length; // ex: S'il y a 3 cartes dans le deck actuellement,
       const indexToRemove = Math.floor(Math.random() * actualLength); // alors on obtient un nombre aléatoire entre 0 et 2 (   [0 - 1) * 3    )
       const [newCard] = deck.splice(indexToRemove, 1); // A AMELIORER
       return newCard;
     };
 
     const dealCards = async () => {
+      // fonctionne MAIS distribue toutes les cartes d'un joueur avant de passer au suivant
       const newHands = [[], []];
 
       for (let p = 0; p < playerNumber; p += 1) {
         // Pour chaque joueur p ...
         for (let c = 0; c < round; c += 1) {
-          // ... autant de fois que le numéro du round ...
+          // ... autant de fois que le numéro du round
           const newCard = getRandomCard();
-          newHands[p].push(newCard); // ... on distribue une carte.
+          newCard.index = c; // On ajoute un index à la carte pour pouvoir la retrouver dans la main du joueur
+          newHands[p].push(newCard); // on distribue une carte.
         }
       }
       setHands(newHands);
     };
-
     dealCards();
-    // console.log(hands)
   }, [deck, round]);
 
   const handleDiscoverHand = () => {
-    // First time the player sees his hand this turn
+    // First time the player sees his hand this round
     setIsVisible(true);
     setIsBidding(true);
   };
@@ -63,7 +71,7 @@ export default function Hand({ isResolved, setBoardCards }) {
         setIsRoundStart(false);
         setUserIndex(0);
       } else {
-        setUserIndex((prevIndex) => prevIndex + 1);
+        setUserIndex(userIndex + 1);
       }
 
       return newBids;
@@ -73,40 +81,37 @@ export default function Hand({ isResolved, setBoardCards }) {
     setIsBidding(false);
   };
 
-  const handleEndTurn = () => {
-    setTurn(turn + 1);
-  };
-
-  const handleEndRound = () => {
-    /*         if (round === maxRound){
-            console.log('Game finihed')
-        } */
-    setHands([[], []]); // On s'assure que les mains sont vides
-    setRound(round + 1); // On passe au tour d'après, ce qui déclenche le useEffect et redistribue les cartes
-    setDeck(Cards);
-  };
-
   const handlePlayCard = (card) => {
     // eslint-disable-next-line no-param-reassign
     card.player = userIndex;
+    hands[userIndex].splice(card.index, 1); // On retire la carte de la main du joueur
     setBoardCards((prevBoardCards) => [...prevBoardCards, card]);
     setIsVisible(false);
-    setUserIndex(userIndex === 0 ? 1 : 0);
+    setUserIndex(userIndex === playerNumber - 1 ? 0 : userIndex + 1);
+  };
+
+  const handleEndGame = () => {
+    console.info("The winner is ...");
   };
 
   return (
     <div>
-      {hands[userIndex].map((card) => {
-        if (isVisible) {
-          return !isRoundStart ? (
-            <CardComponent card={card} key={card.id} onClick={handlePlayCard} />
-          ) : (
-            <CardComponent card={card} key={card.id} />
-          );
-        }
-        return <FaceDownCard key={card.id} />;
-      })}
-      {!isVisible && !isBidding && (
+      {hands &&
+        hands[userIndex].map((card) => {
+          if (isVisible) {
+            return !isRoundStart ? (
+              <CardComponent
+                card={card}
+                key={card.id}
+                onClick={handlePlayCard}
+              />
+            ) : (
+              <CardComponent card={card} key={card.id} />
+            );
+          }
+          return <FaceDownCard key={card.id} />;
+        })}
+      {!isVisible && !isBidding && !isResolved && (
         <button
           type="button"
           onClick={isRoundStart ? handleDiscoverHand : handleLookHand}
@@ -124,13 +129,13 @@ export default function Hand({ isResolved, setBoardCards }) {
         </ul>
       )}
       {isResolved &&
-        (turn === round ? (
-          <button type="button" onClick={handleEndRound}>
-            End Round
+        (turn === round && round === maxRound ? ( // Si on est au dernier tour du dernier round
+          <button type="button" onClick={handleEndGame}>
+            End Game
           </button>
         ) : (
-          <button type="button" onClick={handleEndTurn}>
-            End Turn
+          <button type="button" onClick={handleResolveTurn}>
+            {turn === round ? "Next Round" : "Next Turn"}
           </button>
         ))}
     </div>
