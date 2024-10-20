@@ -6,17 +6,23 @@ import CardComponent from "./cards/CardComponent";
 import FaceDownCard from "./cards/FaceDownCard";
 import Cards from "../BDD/cards";
 
-export default function Hand({ isResolved, setBoardCards }) {
+export default function Hand({
+  isResolved,
+  setBoardCards,
+  firstColor,
+  round,
+  setRound,
+  turn,
+  setTurn,
+  setBids,
+}) {
   const playerNumber = 2;
   const [deck, setDeck] = useState(Cards); // le paquet de carte au fur et à mesure du tour
   const [isVisible, setIsVisible] = useState(false); // les cartes de la main sont visibles ?
   const [userIndex, setUserIndex] = useState(0); // le joueur en train de jouer son tour
-  const [round, setRound] = useState(1);
-  const [turn, setTurn] = useState(1);
   const [hands, setHands] = useState([[], []]); // Tableau contenant les mains de tous les joueurs au fur et à mesure du tour
   const [isRoundStart, setIsRoundStart] = useState(true); // Est-ce que le bidding stage est terminé ?
   const [isBidding, setIsBidding] = useState(false);
-  const [bids, setBids] = useState([]);
 
   useEffect(() => {
     const getRandomCard = () => {
@@ -99,7 +105,7 @@ export default function Hand({ isResolved, setBoardCards }) {
       {hands[userIndex].map((card) => {
         if (isVisible) {
           return !isRoundStart ? (
-            <CardComponent card={card} key={card.id} onClick={handlePlayCard} />
+            <CardComponent card={card} key={card.id} onClick={card.type === 'color' && card.description !== firstColor ? "" : handlePlayCard} /> // si la carte est une couleur mais pas la bonne, elle ne peut pas être jouée (rajouter un props isPlayable pour modifier le style de la carte)
           ) : (
             <CardComponent card={card} key={card.id} />
           );
