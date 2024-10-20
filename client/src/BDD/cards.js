@@ -9,19 +9,19 @@ const Cards = [
   {
     id: 2,
     type: "face",
-    description: "Siren",
+    description: "siren",
     attribut: "Siren",
     background: "#00B3DB", // A remplacer par une image quand on mettra des images
   },
   {
     id: 3,
-    type: "colors",
+    type: "color",
     description: "violet",
     attribut: 1,
   },
   {
     id: 4,
-    type: "colors",
+    type: "color",
     description: "green",
     attribut: 14,
   },
