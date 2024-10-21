@@ -2,6 +2,8 @@
   width: 190px;
   height: 250px;
   border: 1px solid black;
+  box-shadow: 2px 2px 5px black;
+  border-radius: 5px;
 }
 
 .clickableCardClass {
@@ -34,6 +36,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  box-shadow: 2px 2px 5px black;
 }
 
 .faceDown > img {
@@ -50,6 +53,7 @@
   padding-bottom: 4vh;
   font-weight: bold;
   text-align: center;
+  border-radius: 5px;
 }
 
 .colorName {
