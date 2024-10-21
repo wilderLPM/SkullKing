@@ -4,6 +4,15 @@
   border: 1px solid black;
 }
 
+.clickableCardClass {
+  cursor: pointer;
+}
+
+.clickableCardClass:hover {
+  width: 210px;
+  height: 270px;
+}
+
 .violet {
   background-color: #a60a71;
 }

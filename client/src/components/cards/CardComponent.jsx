@@ -9,21 +9,21 @@ const colorMap = {
   green: styles.green,
 };
 
-export default function CardsComponent({ card, onClick }) {
+export default function CardsComponent({ card, onClick, isBidding }) {
   const color = card.description;
   const backgroundFace = card.background;
-
   const colorClass = colorMap[color];
 
   return (
     <div
-      className={`${styles.cardclass} ${colorClass}`}
-      //   style à retirer quand on aura une image pour les personnages
-      style={card.type === "face" ? { backgroundColor: backgroundFace } : {}}
-      onClick={() => onClick(card)}
-      role="button"
-      tabIndex={0}
+    className={`${styles.cardclass} ${colorClass} ${!isBidding && styles.clickableCardClass }`}
+    //   style à retirer quand on aura une image pour les personnages
+    style={card.type === "face" ? { backgroundColor: backgroundFace } : {}}
+    onClick={() => onClick(card)}
+    role="button"
+    tabIndex={0}
     >
+      {isBidding}
       <p className={card.type === "face" ? styles.faceName : styles.colorName}>
         {card.attribut}
       </p>

@@ -4,6 +4,8 @@ import { useState } from "react";
 import Board from "../components/Board";
 import Hand from "../components/Hand";
 import Cards from "../BDD/cards";
+import styles from "./GamePage.module.css";
+import Aside from "../components/aside/Aside";
 
 export default function GamePage() {
   const [isResolved, setIsResolved] = useState(false); // Est-ce que la résolution du tour actuel a eu lieue ?
@@ -34,28 +36,31 @@ export default function GamePage() {
     setIsResolved(false); // nouveau tour = pas encore résolu
   };
   return (
-    <>
-      <Board
-        setIsResolved={setIsResolved}
-        boardCards={boardCards}
-        bids={bids} // pour attribuer les points aux joueurs
-      />
-      <Hand
-        isResolved={isResolved}
-        setBoardCards={setBoardCards}
-        handleResolveTurn={handleResolveTurn}
-        hands={hands}
-        setHands={setHands}
-        deck={deck}
-        setDeck={setDeck} // sera utile pour les pouvoirs de pirates
-        turn={turn}
-        round={round}
-        isRoundStart={isRoundStart}
-        setIsRoundStart={setIsRoundStart}
-        setBids={setBids}
-        userIndex={userIndex}
-        setUserIndex={setUserIndex}
-      />
-    </>
+    <div className="test">
+      <Aside />
+      <div className={`${styles.boardContainer} `}>
+        <Board
+          setIsResolved={setIsResolved}
+          boardCards={boardCards}
+          bids={bids} // pour attribuer les points aux joueurs
+        />
+        <Hand
+          isResolved={isResolved}
+          setBoardCards={setBoardCards}
+          handleResolveTurn={handleResolveTurn}
+          hands={hands}
+          setHands={setHands}
+          deck={deck}
+          setDeck={setDeck} // sera utile pour les pouvoirs de pirates
+          turn={turn}
+          round={round}
+          isRoundStart={isRoundStart}
+          setIsRoundStart={setIsRoundStart}
+          setBids={setBids}
+          userIndex={userIndex}
+          setUserIndex={setUserIndex}
+        />
+      </div>
+    </div>
   );
 }

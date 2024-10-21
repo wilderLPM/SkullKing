@@ -1,0 +1,29 @@
+.cartContainer {
+  display: flex;
+  gap: 5em;
+  flex-direction: row;
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 0.5em;
+  list-style-type: none;
+}
+
+.actionTurn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 2em;
+  width: 190px;
+  background-color: white;
+  border-radius: 16px;
+}
+
+.HandCOntainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  justify-content: center;
+  align-items: center;
+}

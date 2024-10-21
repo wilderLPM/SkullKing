@@ -8,3 +8,16 @@
 .cardMap {
   margin: 2%;
 }
+
+.boardContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+  background-image: url("../assets/images/gabriele-proietti-mattia-xpr6LXUEM70-unsplash.jpg");
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  width: 100%;
+}
