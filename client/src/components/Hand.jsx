@@ -4,6 +4,7 @@
 import { useState, useEffect } from "react";
 import CardComponent from "./cards/CardComponent";
 import FaceDownCard from "./cards/FaceDownCard";
+import styles from "./Hand.module.css";
 
 export default function Hand({
   isResolved,
@@ -95,33 +96,53 @@ export default function Hand({
   };
 
   return (
-    <div>
-      {hands &&
-        hands[userIndex].map((card) => {
-          if (isVisible) {
-            return !isRoundStart ? (
-              <CardComponent
-                card={card}
-                key={card.id}
-                onClick={handlePlayCard}
-              />
-            ) : (
-              <CardComponent card={card} key={card.id} />
-            );
-          }
-          return <FaceDownCard key={card.id} />;
-        })}
+    <div className={`${styles.HandCOntainer}`}>
+      <div className={`${styles.cartContainer}`}>
+        {hands &&
+          hands[userIndex].map((card) => {
+            if (isVisible) {
+              return !isRoundStart ? (
+                <CardComponent
+                  card={card}
+                  key={card.id}
+                  isBidding={isBidding}
+                  onClick={handlePlayCard}
+                />
+              ) : (
+                <CardComponent
+                  card={card}
+                  key={card.id}
+                  isBidding={isBidding}
+                />
+              );
+            }
+            return <FaceDownCard key={card.id} />;
+          })}
+      </div>
+
       {!isVisible && !isBidding && !isResolved && (
         <button
           type="button"
           onClick={isRoundStart ? handleDiscoverHand : handleLookHand}
+          className="button"
         >{`Player ${userIndex + 1}`}</button>
       )}
+      {isVisible && (
+        <p className={`${styles.actionTurn}`}>
+          {isBidding ? "Place your bet" : "Choose your card"}
+        </p>
+      )}
+
       {isBidding && (
-        <ul>
+        <ul className={`${styles.buttonContainer} `}>
           {[...Array(round + 1)].map((_, i) => (
             <li key={i}>
-              <button type="button" onClick={handleBidding} value={i}>
+              <button
+                type="button"
+                onClick={handleBidding}
+                value={i}
+                className="betButton"
+              >
                 {i}
               </button>
             </li>
@@ -134,7 +155,7 @@ export default function Hand({
             End Game
           </button>
         ) : (
-          <button type="button" onClick={handleResolveTurn}>
+          <button type="button" onClick={handleResolveTurn} className="button">
             {turn === round ? "Next Round" : "Next Turn"}
           </button>
         ))}
