@@ -23,7 +23,7 @@ export default function Board({ setIsResolved, boardCards }) {
     if (boardCards.length === playerNumber) resolveTurn(); // Si chaque joueur a joué une carte ce tour-ci, alors on résoud le tour.
   }, [boardCards]);
   return (
-    <div>
+    <div className="BoardContainer">
       {boardCards.length > 0 &&
         boardCards.map((card) => <CardComponent card={card} key={card.id} />)}
     </div>

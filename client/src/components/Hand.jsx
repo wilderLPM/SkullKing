@@ -127,12 +127,11 @@ export default function Hand({
           className="button"
         >{`Player ${userIndex + 1}`}</button>
       )}
-      {isVisible &&
-        (isBidding ? (
-          <p className={`${styles.actionTurn}`}>Place your bet</p>
-        ) : (
-          <p className={`${styles.actionTurn}`}>Choose your card</p>
-        ))}
+      {isVisible && (
+        <p className={`${styles.actionTurn}`}>
+          {isBidding ? "Place your bet" : "Choose your card"}
+        </p>
+      )}
 
       {isBidding && (
         <ul className={`${styles.buttonContainer} `}>

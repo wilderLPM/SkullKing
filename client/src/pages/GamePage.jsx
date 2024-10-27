@@ -36,7 +36,7 @@ export default function GamePage() {
     setIsResolved(false); // nouveau tour = pas encore résolu
   };
   return (
-    <div className="test">
+    <div className="GamePageContainer">
       <Aside />
       <div className={`${styles.boardContainer} `}>
         <Board
